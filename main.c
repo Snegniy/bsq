@@ -71,7 +71,7 @@ void	process_file(char *file_path)
 				write(1, map->map[i++], map->width);
 				write(1, "\n", 1);
 			}
-			free_map(map, map->height);
+			free_map(map);
 		}
 		close(fd);
 	}

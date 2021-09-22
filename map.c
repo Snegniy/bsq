@@ -14,38 +14,40 @@
 
 t_text_map	*read_map(int fd)
 {
-	struct s_helping	helping;
+	t_helping	helping;
 	t_text_map			*map;
 
-	if (ft_fun1(&helping.file_offset, fd, &helping.file_count, &helping.file))
+	clear_helping(&helping);
+
+	if (ft_fun1(&helping, fd))
 		return (NULL);
 	if (ft_fun2(&helping))
 		return (NULL);
-	if (ft_fun3(&map, &helping))
+	if (ft_fun3(&helping, &map))
 		return (NULL);
-	if (ft_fun4(&helping, &map))
+	if (ft_fun4(&helping, map))
 		return (NULL);
-	if (ft_fun5 (&map, &helping))
+	if (ft_fun5(&helping, map))
 		return (NULL);
-	if (ft_fun6 (&map, &helping))
+	if (ft_fun6(&helping, map))
 		return (NULL);
-	if (ft_fun7 (&map, &helping))
+	if (ft_fun7(&helping, map))
 		return (NULL);
-	if (ft_fun8 (&map, &helping))
+	if (ft_fun8(&helping, map))
 		return (NULL);
 	return (map);
 }
 
-int	ft_fun1(int *file_offset, int fd, int *file_count, char **file)
+int	ft_fun1(t_helping* helping, int fd)
 {
-	*file_offset = 0;
-	*file = read_file(fd, file_count);
-	if (*file == NULL)
-		return (NULL);
-	if (*file_count == 0)
+	helping->file_offset = 0;
+	helping->file = read_file(fd, &(helping->file_count));
+	if (helping->file == NULL)
+		return (1);
+	if (helping->file_count == 0)
 	{
-		free(*file);
-		return (NULL);
+		clear_helping(helping);
+		return (1);
 	}
 	return (0);
 }
@@ -56,26 +58,24 @@ int	ft_fun2(t_helping *helping)
 		&(helping->file_offset), &(helping->line_count));
 	if (helping->line == NULL)
 	{
-		free(helping->file);
-		return (NULL);
+		clear_helping(helping);
+		return (1);
 	}
 	if (helping->line_count < 4)
 	{
-		free(helping->file);
-		free(helping->line);
-		return (NULL);
+		clear_helping(helping);
+		return (1);
 	}
 	return (0);
 }
 
-int	ft_fun3(t_text_map **map, t_helping *helping)
+int	ft_fun3(t_helping *helping, t_text_map **map)
 {
 	*map = malloc(sizeof(t_text_map));
 	if (*map == NULL)
 	{
-		free(helping->file);
-		free(helping->line);
-		return (NULL);
+		clear_helping(helping);
+		return (1);
 	}
 	(*map)->map = NULL;
 	(*map)->full = helping->line[helping->line_count - 1];

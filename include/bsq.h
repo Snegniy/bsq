@@ -35,7 +35,6 @@ typedef struct s_helping
 	int		file_offset;
 	int		file_count;
 	int		line_count;
-	int		valid_line_count;
 }	t_helping;
 
 void		standard_input(char *file_path);
@@ -43,7 +42,8 @@ void		process_file(char *file_path);
 t_text_map	*read_map(int fd);
 void		process_map(t_text_map *map);
 int			parameter_check(t_text_map *map);
-void		free_map(t_text_map *map, int valid_line_count);
+void		free_map(t_text_map *map);
+void		clear_helping(t_helping *helping);
 char		*read_file(int fd, int *count);
 char		*read_line(char *text, int text_count, int *text_offset, \
 					   int *line_count);
@@ -51,13 +51,18 @@ void		memory_copy_1(char *src, char *dst, int dst_offset, int count);
 void		memory_copy_2(char *src, char *dst, int src_offset, int count);
 int			bsq_atoi(char *str);
 void		error(void);
-int			ft_fun1(int *file_offset, int fd, int *file_count, char **file);
+int			ft_fun1(t_helping *helping, int fd);
 int			ft_fun2(t_helping *helping);
-int			ft_fun3(t_text_map **map, t_helping *helping);
-int			ft_fun4(t_helping *helping, t_text_map **map);
-int			ft_fun5(t_text_map **map, t_helping *helping);
-int			ft_fun6(t_text_map **map, t_helping *helping);
-int			ft_fun7(t_text_map **map, t_helping *helping);
-int			ft_fun8(t_text_map **map, t_helping *helping);
+int			ft_fun3(t_helping *helping, t_text_map **map);
+int			ft_fun4(t_helping *helping, t_text_map *map);
+int			ft_fun5(t_helping *helping, t_text_map *map);
+int			ft_fun6(t_helping *helping, t_text_map *map);
+int			ft_fun7(t_helping *helping, t_text_map *map);
+int			ft_fun8(t_helping *helping, t_text_map *map);
+
+int**	make_numeric_map(t_text_map *text_map);
+int**	alloc_numeric_map(t_text_map *text_map);
+void	init_numeric_map(t_text_map *text_map, int **map);
+void	fill_numeric_map(t_text_map *text_map, int **map);
 
 #endif

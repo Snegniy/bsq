@@ -19,37 +19,8 @@ void	process_map(t_text_map *text_map)
 	int	j;
 	int	**map;
 
-	map = malloc(text_map->height * sizeof(int *));
-	i = 0;
-	while (i < text_map->height)
-	{
-		map[i] = malloc(text_map->width * sizeof(int));
-		i++;
-	}
-	i = 0;
-	while (i < text_map->height)
-	{
-		j = 0;
-		while (j < text_map->width)
-		{
-			map[i][j] = text_map->map[i][j] == text_map->empty;
-			j++;
-		}
-		i++;
-	}
-	i = 1;
-	while (i < text_map->height)
-	{
-		j = 0;
-		while (j < text_map->width)
-		{
-			if (map[i][j] == 1)
-				map[i][j] += map[i - 1][j];
-			j++;
-		}
-		i++;
-	}
-//
+	map = make_numeric_map(text_map);
+
 	int	maxSquare;
 	int	leftIndex;
 	int	topIndex;
@@ -114,3 +85,73 @@ void	process_map(t_text_map *text_map)
 	}
 	free(map);
 }
+
+int**	make_numeric_map(t_text_map *text_map) {
+	int	**map;
+
+	map = alloc_numeric_map(text_map);
+	init_numeric_map(text_map, map);
+	fill_numeric_map(text_map, map);
+}
+
+int**	alloc_numeric_map(t_text_map *text_map) {
+	int	i;
+	int	j;
+	int	**map;
+
+	map = malloc(text_map->height * sizeof(int *));
+	i = 0;
+	while (i < text_map->height)
+	{
+		map[i] = malloc(text_map->width * sizeof(int));
+		i++;
+	}
+	i = 0;
+	while (i < text_map->height)
+	{
+		j = 0;
+		while (j < text_map->width)
+		{
+			map[i][j] = text_map->map[i][j] == text_map->empty;
+			j++;
+		}
+		i++;
+	}
+	return map;
+}
+
+void	init_numeric_map(t_text_map *text_map, int **map) {
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < text_map->height)
+	{
+		j = 0;
+		while (j < text_map->width)
+		{
+			map[i][j] = text_map->map[i][j] == text_map->empty;
+			j++;
+		}
+		i++;
+	}
+}
+
+void fill_numeric_map(t_text_map *text_map, int **map) {
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < text_map->height)
+	{
+		j = 0;
+		while (j < text_map->width)
+		{
+			if (map[i][j] == 1)
+				map[i][j] += map[i - 1][j];
+			j++;
+		}
+		i++;
+	}
+}
+

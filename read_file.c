@@ -54,21 +54,47 @@ void	memory_copy_2(char *src, char *dst, int src_offset, int count)
 	}
 }
 
-void	free_map(t_text_map *map, int valid_line_count)
+void	free_map(t_text_map *map)
 {
 	int		i;
 
 	if (map->map != NULL)
 	{
 		i = 0;
-		while (i < valid_line_count)
+		while (i < map->height)
 		{
-			free(map->map[i]);
+			if (map->map[i] != NULL)
+			{
+				free(map->map[i]);
+				map->map[i] = NULL;
+			}
+			else
+				break;
 			i++;
 		}
 		free(map->map);
+		map->map = NULL;
 	}
 	free(map);
+}
+
+void	clear_helping(t_helping *helping)
+{
+	if (helping->file != NULL)
+	{
+		free(helping->file);
+		helping->file = NULL;
+	}
+
+	if (helping->line != NULL)
+	{
+		free(helping->line);
+		helping->line = NULL;
+	}
+
+	helping->file_count = 0;
+	helping->line_count = 0;
+	helping->file_offset = 0;
 }
 
 char	*read_file(int fd, int *count)
