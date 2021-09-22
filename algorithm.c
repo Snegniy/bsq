@@ -14,76 +14,105 @@
 
 void	process_map(t_text_map *text_map)
 {
-	int	s;
 	int	i;
-	int	j;
 	int	**map;
+	t_helping_2	helping;
 
 	map = make_numeric_map(text_map);
-
-	int	maxSquare;
-	int	leftIndex;
-	int	topIndex;
-
-	maxSquare = 0;
+	helping.max_square = 0;
 	i = 0;
 	while (i < text_map->height)
 	{
-		int	li = -1;
-		int	ri = 0;
-		int	h;
-		h = map[i][0];
-
-		while (ri < text_map->width)
+		helping.max_square_temp = find_max_square(map[i], text_map->width, &helping.left_index_temp);
+		if (helping.max_square < helping.max_square_temp)
 		{
-			if (h > map[i][ri])
-				h = map[i][ri];
-
-			if (li < ri - h)
-			{
-				li = ri - h;
-				if (li == ri) // <--
-					li--;
-				if (map[i][li + 1] < map[i][ri])
-					h = map[i][li + 1];
-				else
-					h = map[i][ri];
-			}
-			int	w;
-
-			w = ri - li;
-			if (w < h)
-				s = w;
-			else
-				s = h;
-			if (maxSquare < s)
-			{
-				maxSquare = s;
-				leftIndex = li + 1;
-				topIndex = i - s + 1;
-			}
-			ri++;
+			helping.max_square = helping.max_square_temp;
+			helping.left_index = helping.left_index_temp;
+			helping.top_index = i - helping.max_square_temp + 1;
 		}
 		i++;
 	}
+	fill_text_map(text_map, helping.left_index, helping.top_index, helping.max_square);
+	free_numeric_map(map, text_map->height);
+}
+
+void free_numeric_map(int **map, int count) {
+	int	i;
+
 	i = 0;
-	while (i < maxSquare)
-	{
-		j = 0;
-		while (j < maxSquare)
-		{
-			text_map->map[topIndex + i][leftIndex + j] = text_map->full;
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (i < text_map->height)
+	while (i < count)
 	{
 		free(map[i]);
 		i++;
 	}
 	free(map);
+}
+
+void	fill_text_map(t_text_map *text_map, int left_index, int top_index, int square) {
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < square)
+	{
+		j = 0;
+		while (j < square)
+		{
+			text_map->map[top_index + i][left_index + j] = text_map->full;
+			j++;
+		}
+		i++;
+	}
+}
+
+int	find_max_square(int *line, int count, int *left_index) {
+	int	square;
+	int	max_square;
+	t_helping_3	helping;
+
+	helping.li = -1;
+	helping.ri = 0;
+	helping.h = line[0];
+	max_square = 0;
+
+	while (helping.ri < count)
+	{
+		square = ft_fun9(&helping, line);
+		if (max_square < square)
+		{
+			max_square = square;
+			*left_index = helping.li + 1;
+		}
+		helping.ri++;
+	}
+
+	return (max_square);
+}
+
+int	ft_fun9(t_helping_3 *helping, int *line) {
+	int square;
+
+	if (helping->h > line[helping->ri])
+		helping->h = line[helping->ri];
+
+	if (helping->li < helping->ri - helping->h)
+	{
+		helping->li = helping->ri - helping->h;
+		if (helping->li == helping->ri) // <--
+			helping->li--;
+		if (line[helping->li + 1] < line[helping->ri])
+			helping->h = line[helping->li + 1];
+		else
+			helping->h = line[helping->ri];
+	}
+
+	helping->w = helping->ri - helping->li;
+	if (helping->w < helping->h)
+		square = helping->w;
+	else
+		square = helping->h;
+
+	return square;
 }
 
 int**	make_numeric_map(t_text_map *text_map) {
@@ -92,6 +121,8 @@ int**	make_numeric_map(t_text_map *text_map) {
 	map = alloc_numeric_map(text_map);
 	init_numeric_map(text_map, map);
 	fill_numeric_map(text_map, map);
+
+	return (map);
 }
 
 int**	alloc_numeric_map(t_text_map *text_map) {
@@ -117,7 +148,7 @@ int**	alloc_numeric_map(t_text_map *text_map) {
 		}
 		i++;
 	}
-	return map;
+	return (map);
 }
 
 void	init_numeric_map(t_text_map *text_map, int **map) {

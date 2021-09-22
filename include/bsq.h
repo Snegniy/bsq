@@ -37,6 +37,23 @@ typedef struct s_helping
 	int		line_count;
 }	t_helping;
 
+typedef struct s_helping_2
+{
+	int	max_square_temp;
+	int	left_index_temp;
+	int	left_index;
+	int	top_index;
+	int	max_square;
+}	t_helping_2;
+
+typedef struct s_helping_3
+{
+	int	li;
+	int	ri;
+	int	w;
+	int	h;
+}	t_helping_3;
+
 void		standard_input(char *file_path);
 void		process_file(char *file_path);
 t_text_map	*read_map(int fd);
@@ -60,9 +77,15 @@ int			ft_fun6(t_helping *helping, t_text_map *map);
 int			ft_fun7(t_helping *helping, t_text_map *map);
 int			ft_fun8(t_helping *helping, t_text_map *map);
 
-int**	make_numeric_map(t_text_map *text_map);
-int**	alloc_numeric_map(t_text_map *text_map);
-void	init_numeric_map(t_text_map *text_map, int **map);
-void	fill_numeric_map(t_text_map *text_map, int **map);
+int**		make_numeric_map(t_text_map *text_map);
+int**		alloc_numeric_map(t_text_map *text_map);
+void		init_numeric_map(t_text_map *text_map, int **map);
+void		fill_numeric_map(t_text_map *text_map, int **map);
+
+int			find_max_square(int* line, int count, int* left_index);
+int			ft_fun9(t_helping_3	*helping, int *line);
+void		fill_text_map(t_text_map *text_map, int left_index, int top_index, int square);
+
+void		free_numeric_map(int** map, int count);
 
 #endif
