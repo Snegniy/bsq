@@ -17,8 +17,8 @@ t_text_map	*read_map(int fd)
 	t_helping	helping;
 	t_text_map			*map;
 
-	clear_helping(&helping);
-
+	helping.file = NULL;
+	helping.line = NULL;
 	if (ft_fun1(&helping, fd))
 		return (NULL);
 	if (ft_fun2(&helping))

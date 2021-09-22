@@ -19,6 +19,7 @@ void	process_map(t_text_map *text_map)
 	t_helping_2	helping;
 
 	map = make_numeric_map(text_map);
+
 	helping.max_square = 0;
 	i = 0;
 	while (i < text_map->height)
