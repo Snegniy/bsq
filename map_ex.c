@@ -47,8 +47,10 @@ int	ft_fun5(t_helping *helping, t_text_map *map)
 	while (i < map->height)
 	{
 		map->map[i] = NULL;
+		i++;
 	}
 	map->map[0] = helping->line;
+	helping->line = NULL;
 	return (0);
 }
 
