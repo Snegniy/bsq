@@ -6,7 +6,7 @@
 /*   By: imelody <imelody@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 19:49:49 by imelody           #+#    #+#             */
-/*   Updated: 2021/09/22 19:49:49 by imelody          ###   ########.fr       */
+/*   Updated: 2021/09/22 20:43:50 by imelody          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ int	ft_fun4(t_helping *helping, t_text_map **map)
 	{
 		free(helping->file);
 		free_map(*map, 0);
-		return (1);
+		return (NULL);
 	}
-	helping->line = read_line(helping->file, helping->file_count, &(helping->file_offset), &(helping->line_count));
+	helping->line = read_line(helping->file, helping->file_count, \
+		&(helping->file_offset), &(helping->line_count));
 	if (helping->line == NULL)
 	{
 		free(helping->file);
 		free_map(*map, 0);
-		return (1);
+		return (NULL);
 	}
 	(*map)->width = helping->line_count;
 	return (0);
@@ -38,7 +39,7 @@ int	ft_fun5(t_text_map **map, t_helping *helping)
 		free(helping->file);
 		free(helping->line);
 		free_map(*map, 0);
-		return (1);
+		return (NULL);
 	}
 	(*map)->map = malloc((*map)->height * sizeof(char *));
 	(*map)->map[0] = helping->line;
@@ -48,18 +49,19 @@ int	ft_fun5(t_text_map **map, t_helping *helping)
 
 int	ft_fun6(t_text_map **map, t_helping *helping)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < (*map)->height - 1)
 	{
-		(*map)->map[1 + i] = read_line(helping->file, helping->file_count, &(helping->file_offset), &(helping->line_count));
+		(*map)->map[1 + i] = read_line(helping->file, helping->file_count, \
+			&(helping->file_offset), &(helping->line_count));
 		if ((*map)->map[1 + i] == NULL)
 		{
 			free(helping->file);
 			free(helping->line);
 			free_map(*map, helping->valid_line_count);
-			return (1);// return (1)//
+			return (NULL);
 		}
 		helping->valid_line_count++;
 		if (helping->line_count != (*map)->width)
@@ -67,7 +69,7 @@ int	ft_fun6(t_text_map **map, t_helping *helping)
 			free(helping->file);
 			free(helping->line);
 			free_map(*map, helping->valid_line_count);
-			return (1); // return (1)//
+			return (NULL);
 		}
 		i++;
 	}
@@ -81,15 +83,15 @@ int	ft_fun7(t_text_map **map, t_helping *helping)
 		free(helping->file);
 		free(helping->line);
 		free_map(*map, (*map)->height);
-		return (1);
+		return (NULL);
 	}
 	return (0);
 }
 
 int	ft_fun8(t_text_map **map, t_helping *helping)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < (*map)->height)
@@ -97,17 +99,17 @@ int	ft_fun8(t_text_map **map, t_helping *helping)
 		j = 0;
 		while (j < (*map)->width)
 		{
-			if ((*map)->map[i][j] != (*map)->empty && (*map)->map[i][j] != (*map)->obstacle)
+			if ((*map)->map[i][j] != (*map)->empty && \
+					(*map)->map[i][j] != (*map)->obstacle)
 			{
 				free(helping->file);
 				free(helping->line);
 				free_map(*map, helping->valid_line_count);
-				return (1);
+				return (NULL);
 			}
 			j++;
 		}
 		i++;
 	}
-	return (0); // сюда ли это?? или тут остается return (0)//
+	return (0);
 }
-

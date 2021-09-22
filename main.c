@@ -6,7 +6,7 @@
 /*   By: imelody <imelody@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/19 16:10:10 by imelody           #+#    #+#             */
-/*   Updated: 2021/09/22 05:49:22 by imelody          ###   ########.fr       */
+/*   Updated: 2021/09/22 20:33:11 by imelody          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,8 @@ void	process_file(char *file_path)
 			i = 0;
 			while (i < map->height)
 			{
-				write(1, map->map[i], map->width);
+				write(1, map->map[i++], map->width);
 				write(1, "\n", 1);
-				i++;
 			}
 			free_map(map, map->height);
 		}
